@@ -27,10 +27,11 @@ def finding_company_website(browser):
             try:
                 text = browser.find_element(by=By.XPATH,value="""//*[@id="r1-{}"]/div[1]/div/a""".format(i))
                 print(text.get_attribute("textContent"))
-                links.append(str(text.get_attribute("textContent")).replace(u'\xa0>\xa0', u'/').replace(" › ", "/").replace(" › ", "/").replace(u'\xa0',''))
+                links.append(str(text.get_attribute("textContent")).replace(u'\xa0>\xa0', u'/').replace("›", "/").replace(" › ", "/").replace(" ", "").replace(u'\xa0',''))
             except:
                 print("Issue in XPath")
         result = pd.concat([result,pd.DataFrame({"company":company,"city":city,"links":[links]})],ignore_index=True)
+        print(result['links'])
         textbox = browser.find_element(by=By.NAME,value="q")
         
         textbox.send_keys(Keys.CONTROL + "a")
@@ -61,7 +62,7 @@ def finding_company_linkedin(browser):
                 textContent = text.get_attribute("textContent")
                 print(textContent)
                 if len(textContent) > 0:
-                    url = textContent.replace(' › ','/').replace(' › ','/')
+                    url = textContent.replace(' › ','/').replace('›','/')
                     print(url)
                     result[f'link' + str(i+1)].append(url)
             except:
